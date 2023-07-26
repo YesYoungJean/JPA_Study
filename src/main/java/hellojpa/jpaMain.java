@@ -1,5 +1,7 @@
 package hellojpa;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -129,12 +131,34 @@ public class jpaMain {
              * 2) 그리고 JPA가 entity가 변경됐는지 트랜잭션 commit하는 시점에 확인
              * 3) 변경된 것이 있으면 commit 직전에 update 쿼리 날리고 commit 완료함
              * */
+//            Member member = em.find(Member.class, 150L);
+//            //이렇게만 해도 무조건 update 쿼리가 나간다.
+//            member.setName("ZZZZZ");
+
+            /**
+             * 8.플러시
+             * 1) 직접 호출, 자동 호출 존재
+             * */
+//            Member member = new Member(200L, "member200");
+//            em.persist(member);
+//
+//            //직접 호출
+//            em.flush();
+//            System.out.println("================");
+
+            /**
+             * 9.준영속
+             * */
             Member member = em.find(Member.class, 150L);
-            //이렇게만 해도 무조건 update 쿼리가 나간다.
-            member.setName("ZZZZZ");
+            member.setName("AAAAA");
+
+            //영속성 컨텍스트에서 관리하기 싫을 경우 준영속 상태로 만든다.
+            //entity를 수정했지만 영속성 컨텍스트에서 준영속 시켰기에 update가 발생하지 않는다.
+            //(직접 쓸 일은 거의 없음)
+            em.detach(member);
+            System.out.println("================");
+
             
-
-
             tx.commit();
         } catch (Exception e){
             e.printStackTrace();
