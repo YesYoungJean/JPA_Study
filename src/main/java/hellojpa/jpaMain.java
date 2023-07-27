@@ -149,16 +149,24 @@ public class jpaMain {
             /**
              * 9.준영속
              * */
-            Member member = em.find(Member.class, 150L);
-            member.setName("AAAAA");
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("AAAAA");
+//
+//            //영속성 컨텍스트에서 관리하기 싫을 경우 준영속 상태로 만든다.
+//            //entity를 수정했지만 영속성 컨텍스트에서 준영속 시켰기에 update가 발생하지 않는다.
+//            //(직접 쓸 일은 거의 없음)
+//            em.detach(member);
+//            System.out.println("================");
 
-            //영속성 컨텍스트에서 관리하기 싫을 경우 준영속 상태로 만든다.
-            //entity를 수정했지만 영속성 컨텍스트에서 준영속 시켰기에 update가 발생하지 않는다.
-            //(직접 쓸 일은 거의 없음)
-            em.detach(member);
-            System.out.println("================");
+            /**
+             * 10.기본 키 매핑
+             * */
+            Member member = new Member();
+            //DB가 알아서 넣어줌
+//            member.setId("A");
+            member.setUsername("A");
+            em.persist(member);
 
-            
             tx.commit();
         } catch (Exception e){
             e.printStackTrace();
