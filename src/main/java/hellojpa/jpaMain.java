@@ -167,6 +167,7 @@ public class jpaMain {
             member.setUsername("A");
             em.persist(member);
 
+            //최종 commit
             tx.commit();
         } catch (Exception e){
             e.printStackTrace();
