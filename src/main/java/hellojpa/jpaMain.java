@@ -161,13 +161,46 @@ public class jpaMain {
             /**
              * 10.기본 키 매핑
              * */
+//            Member member = new Member();
+//            //DB가 알아서 넣어줌
+////            member.setId("A");
+//            member.setUsername("흥민");
+//            em.persist(member);
+//
+//            //최종 commit
+//            tx.commit();
+
+
+            /**
+             * @ 2023-07-29
+             * @ 단방향 연관관계
+             *
+             * 객체를 테이블에 맞춰 데이터 중심으로 모델링하면, 협력 관계를 만들 수 없다.
+             * Why?
+             * 1. 테이블은 FK로 join하여 연관 테이블을 찾는다.
+             * 2. 객체는 참조를 사용하여 연관 객체를 찾는다.
+             * --------------------------------------------------------------
+             * (1) 단방향 연관관계
+             * team의 id가 아닌, Team의 '참조값'을 그대로 가져오게 만듦.
+            * */
+
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
             Member member = new Member();
-            //DB가 알아서 넣어줌
-//            member.setId("A");
-            member.setUsername("A");
+            member.setUsername("member1");
+//            member.setTeamId(team.getId());
+            member.setTeam(team);
             em.persist(member);
 
-            //최종 commit
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
+
+
+
+
             tx.commit();
         } catch (Exception e){
             e.printStackTrace();

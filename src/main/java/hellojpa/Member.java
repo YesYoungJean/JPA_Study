@@ -7,37 +7,45 @@ import javax.persistence.*;
 @Entity
 public class Member {
 
-//    //PK 명시
-//    @Id
-//    private Long id;
-
-    //직접 기본키를 할당하여 세팅
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
-
-    @Column(name = "name", nullable = false)
+    @Column(name = "USERNAME")
     private String username;
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
 
-    //기본 생성자가 필요하다.
-    public Member(){
-
-    }
+    /**
+     * JPA에게 관계를 알려줘야 함
+     * 1) ManyToOne: 1개 팀에 여러 회원이 들어올 수 있음
+     * 2) JoinColumn: Team 테이블에서 join할 컬럼 명시
+     * */
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
