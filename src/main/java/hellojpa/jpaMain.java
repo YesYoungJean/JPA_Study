@@ -184,6 +184,44 @@ public class jpaMain {
              * team의 id가 아닌, Team의 '참조값'을 그대로 가져오게 만듦.
             * */
 
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("member1");
+////            member.setTeamId(team.getId());
+//            member.setTeam(team);
+//            em.persist(member);
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            Team findTeam = findMember.getTeam();
+//            System.out.println("findTeam = " + findTeam.getName());
+
+            /**
+             *
+             * @ 2023-08-01
+             * @ 양방향 연관관계
+             * */
+
+            /*
+             * 테이블: 테이블 연관관계는 외래키 1개로 양방향을 다 조회할 수 있다. (사실상 방향의 의미가 없다.)
+             * 객체: members를 알려면 List members를 넣어줘야 알 수 있다.
+             btw, 양방향 연관관계가 좋을까? 사실 객체는 가급적 단방향이 좋다.
+             테이블 연관관계: 1개 | why? 회원<->팀의 연관관계 1개(양방향)
+             >>> 테이블은 외래키 하나로 두 테이블의 연관관계를 관리
+             * 객체 연관관계: 회원->팀 1개(단방향), 팀->회원 1개(단방향) 총 2개
+             >>> 즉, 객체의 양방향 관계는 사실 정말 양방향이 아니라, 서로 다른 단방향 관계 2개이다.
+             * '연관관계의 주인': 양방향 매핑 규칙
+             1. 객체의 두 관계 중 하나를 연관관계의 주인으로 지정
+             2. 연관관계의 주인만이 외래키를 관리(등록, 수정)
+             3. 주인이 아닌 쪽은 읽기만 가능
+             4. 주인은 mappedBy 속성 사용X
+             5. 주인이 아니면 mappedBy 속성으로 주인 지정
+             * 누구를 주인으로?
+             * ★테이블로 나타냈을 때 외래 키가 있는 곳을 주인으로 정해라
+             */
+
             Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
@@ -194,11 +232,15 @@ public class jpaMain {
             member.setTeam(team);
             em.persist(member);
 
+            em.flush();
+            em.clear();
+
             Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam = " + findTeam.getName());
+            List<Member> members = findMember.getTeam().getMembers();
 
-
+            for(Member m: members){
+                System.out.println("m = " + m.getUsername());
+            }
 
 
             tx.commit();
