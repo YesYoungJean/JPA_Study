@@ -219,7 +219,7 @@ public class jpaMain {
              4. 주인은 mappedBy 속성 사용X
              5. 주인이 아니면 mappedBy 속성으로 주인 지정
              * 누구를 주인으로?
-             * ★★테이블로 나타냈을 때 외래 키가 있는 곳을 주인으로 정해라★★
+             * ★★테이블로 나타냈을 때 외래 키가 있는 곳을 주인으로 정해라!!★★
              */
 
             Team team = new Team();
@@ -241,7 +241,6 @@ public class jpaMain {
             for(Member m: members){
                 System.out.println("m = " + m.getUsername());
             }
-
 
             tx.commit();
         } catch (Exception e){
